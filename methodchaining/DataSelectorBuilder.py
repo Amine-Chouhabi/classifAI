@@ -39,30 +39,27 @@ class DataSelectorBuilder:
         return self
     
     def remove_outliers(self):
-        if self.data_selector is None:
-            self.data_selector = DataSelector([])
+        self.validator.entry_is_exist(self.data_selector)
         self.data_selector.add_filter(OutliersFilter())
         return self
     
     def remove_duplicates(self):
-        if self.data_selector is None:
-            self.data_selector = DataSelector([])
+        self.validator.entry_is_exist(self.data_selector)
         self.data_selector.add_filter(DuplicateFilter())
         return self
     
     def remove_columns(self, columns):
-        if self.data_selector is None:
-            self.data_selector = DataSelector([])
+        self.validator.entry_is_exist(self.data_selector)
         self.data_selector.add_filter(ColumnFilter(columns))
         return self
 
     def remove_rows(self, rows):
-        if self.data_selector is None:
-            self.data_selector = DataSelector([])
+        self.validator.entry_is_exist(self.data_selector)
         self.data_selector.add_filter(RowFilter(rows))
         return self    
 
     def end_selector(self):
+        self.validator.entry_is_exist(self.data_selector)
         return self.root
 
     def get_notebook_code(self):

@@ -1,14 +1,16 @@
 import os
 import sys
 
+from methodchaining.Validators.DataProcessingValidator import DataProcessingValidator
+
 file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\DataSelector.py")
 sys.path.append(file_dir)
 
-from processors.DataProcessor import DataProcessor
-from processors.FlattenProcessor import FlattenProcessor
-from processors.NormalizeProcessor import NormalizeProcessor
-from processors.DiscreteProcessor import DiscreteProcessor
-from processors.SplitProcessor import SplitProcessor
+from model.processors.DataProcessor import DataProcessor
+from model.processors.FlattenProcessor import FlattenProcessor
+from model.processors.NormalizeProcessor import NormalizeProcessor
+from model.processors.DiscreteProcessor import DiscreteProcessor
+from model.processors.SplitProcessor import SplitProcessor
 
 FLATTEN_PROCESSOR = 0
 NORMALIZE_PROCESSOR = 1
@@ -18,8 +20,11 @@ class DataProcessorBuilder:
     def __init__(self, root):
         self.root = root
         self.data_processor = None
+        self.validator = DataProcessingValidator()
+
 
     def flatten(self):
+        self.validator.entry_is_exist(self.root.data_selector)
         if self.data_processor is None:
             self.data_processor = DataProcessor([])
         self.data_processor.add_processor(FlattenProcessor())
