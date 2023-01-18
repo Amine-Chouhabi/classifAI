@@ -5,7 +5,7 @@ from algorithms.Algorithm import Algorithm
 class DecisionTree(Algorithm):
     def __init__(self, name):
         super().__init__(name)
-        self.hyperparameters = None
+        self.hyperparameters = []
 
 
     def __str__(self):

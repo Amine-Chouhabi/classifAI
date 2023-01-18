@@ -70,10 +70,18 @@ algo_comparison_builder \
             .end_processor() \
         .set_hyper_parameters() \
             .learning_rate().set_value(0.1) \
-            .C().set_range(0.1, 1.0, 0.2) \
+            .C().set_value(0.1) \
+            .kernel().set_value("linear") \
+            .gamma().set_value(0.2) \
         .end_hyperparameters() \
         .set_algorithms() \
-        .test() \
+            .svm("svm1") \
+                .hyperparameter("C") \
+                .hyperparameter("kernel") \
+                .hyperparameter("gamma") \
+                .end()      \
+            .svm("svm2") \
+            .end() \
         .end_algorithms() \
         .get_notebook_code()
         
