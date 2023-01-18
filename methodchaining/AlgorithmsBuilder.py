@@ -22,22 +22,23 @@ class AlgorithmsBuilder:
         self.algorithms = None
         self.hyperparameters = hyperparameters
         self.actions = []
-    
-    def set_hyperparameters(self, hyperparameters):
-        self.hyperparameters = hyperparameters
 
-    def svm(self, name, hyperparameters_names):
+
+    def svm(self, name):
         if self.algorithms is None:
             self.algorithms = []
+        
+        # check if the same algorithm is already added
+        for i in range(len(self.algorithms)):
+            if self.algorithms[i].name == name:
+                raise Exception("Algorithm already added: " + name)
         svm = SVM(name)
-        svm_hyperparameters_names = svm.get_hyperparameters_names()
-        # check if the hyperparameters are valid
-        for i in range(len(hyperparameters_names)):
-            if hyperparameters_names[i] not in svm_hyperparameters_names:
-                raise Exception("Invalid hyperparameter name: " + hyperparameters_names[i])
-        svm.set_hyperparameters(hyperparameters_names)
         self.algorithms.append(svm)
-        return self
+        builder = AlgorithmHyperparameterBuilder(self,name, self.algorithms)
+        
+        return builder
+
+    
     
     
     def naive_bayes(self, name, hyperparameters_names):
@@ -157,7 +158,7 @@ class AlgorithmsBuilder:
                 # initialize the algorithm svm with the hyperparameters
                 code += self.algorithms[i].name + " = svm.SVC("
                 for j in range(len(self.algorithms[i].hyperparameters)):
-                    code += self.algorithms[i].hyperparameters[j] + "=" + self.algorithms[i].hyperparameters[j]
+                    code += self.algorithms[i].hyperparameters[j].name + "=" + self.algorithms[i].hyperparameters[j].name
                     if j != len(self.algorithms[i].hyperparameters) - 1:
                         code += ", "
                 code += ")\n"
