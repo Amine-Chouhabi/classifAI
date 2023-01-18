@@ -1,17 +1,19 @@
 import os
 import sys
 
+from methodchaining.Validators.DataSelectionValidator import DataSelectionValidator
+
 file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\DataSelector.py")
 sys.path.append(file_dir)
 
-from dataSelection.DataSelector import DataSelector
-from dataSelection.DataSetEntry import DataSetEntry
-from filters.Filter import Filter
-from filters.NullFilter import NullFilter
-from filters.OutliersFilter import OutliersFilter
-from filters.DuplicateFilter import DuplicateFilter
-from filters.ColumnFilter import ColumnFilter
-from filters.RowFilter import RowFilter
+from model.dataSelection.DataSelector import DataSelector
+from model.dataSelection.DataSetEntry import DataSetEntry
+from model.filters.Filter import Filter
+from model.filters.NullFilter import NullFilter
+from model.filters.OutliersFilter import OutliersFilter
+from model.filters.DuplicateFilter import DuplicateFilter
+from model.filters.ColumnFilter import ColumnFilter
+from model.filters.RowFilter import RowFilter
 
 NULL_FILTER = 0
 OUTLIERS_FILTER = 1
@@ -23,6 +25,7 @@ class DataSelectorBuilder:
     def __init__(self, root):
         self.root = root
         self.data_selector = None
+        self.validator = DataSelectionValidator()
 
     def add_entry(self, path):
         if self.data_selector is None:
@@ -31,8 +34,7 @@ class DataSelectorBuilder:
         return self
     
     def remove_null_values(self):
-        if self.data_selector is None:
-            self.data_selector = DataSelector([])
+        self.validator.entry_is_exist(self.data_selector)
         self.data_selector.add_filter(NullFilter())
         return self
     
