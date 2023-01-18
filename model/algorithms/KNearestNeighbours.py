@@ -12,8 +12,8 @@ class KNearestNeighbours(Algorithm):
     def __repr__(self):
         return self.__str__()
 
-    def set_hyperparameter(self, name, value):
-        self.hyperparameters[name] = value
+    def set_hyperparameter(self, hyperparameter):
+        self.hyperparameters.append(hyperparameter)
 
     def set_hyperparameters(self, hyperparameters):
         self.hyperparameters = hyperparameters

@@ -1,7 +1,7 @@
 import os
 import sys
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\model\\visualisation\\Visualisation.py")
+file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\visualisation\\Visualisation.py")
 sys.path.append(file_dir)
 
 from PieChart import PieChart

@@ -1,7 +1,7 @@
 import os
 import sys
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\model\\DataSelector.py")
+file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\DataSelector.py")
 sys.path.append(file_dir)
 
 from dataSelection.DataSelector import DataSelector

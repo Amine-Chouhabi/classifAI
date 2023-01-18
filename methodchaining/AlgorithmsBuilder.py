@@ -1,7 +1,7 @@
 import os
 import sys
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\model\\algorithms")
+file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\algorithms")
 sys.path.append(file_dir)
 
 from algorithms.Algorithm import Algorithm
@@ -12,20 +12,21 @@ from algorithms.DecisionTree import DecisionTree
 from algorithms.LogisticRegression import LogisticRegression
 from algorithms.KNearestNeighbours import KNearestNeighbours
 from algorithms.StochasticGradientDescent import StochasticGradientDescent
+from AlgorithmHyperparameterBuilder import AlgorithmHyperparameterBuilder
 
 
 
 class AlgorithmsBuilder:
-    def __init__(self, root):
+    def __init__(self, root, hyperparameters):
         self.root = root
         self.algorithms = None
-        self.hyperparameters = None
+        self.hyperparameters = hyperparameters
         self.actions = []
     
     def set_hyperparameters(self, hyperparameters):
         self.hyperparameters = hyperparameters
 
-    def add_svm(self, name, hyperparameters_names):
+    def svm(self, name, hyperparameters_names):
         if self.algorithms is None:
             self.algorithms = []
         svm = SVM(name)
@@ -38,7 +39,8 @@ class AlgorithmsBuilder:
         self.algorithms.append(svm)
         return self
     
-    def add_naive_bayes(self, name, hyperparameters_names):
+    
+    def naive_bayes(self, name, hyperparameters_names):
         if self.algorithms is None:
             self.algorithms = []
         naive_bayes = NaiveBayes(name)
@@ -51,7 +53,7 @@ class AlgorithmsBuilder:
         self.algorithms.append(naive_bayes)
         return self
     
-    def add_random_forest(self, name, hyperparameters_names):
+    def random_forest(self, name, hyperparameters_names):
         if self.algorithms is None:
             self.algorithms = []
         random_forest = RandomForest(name)
@@ -64,7 +66,7 @@ class AlgorithmsBuilder:
         self.algorithms.append(random_forest)
         return self
     
-    def add_decision_tree(self, name, hyperparameters_names):
+    def decision_tree(self, name, hyperparameters_names):
         if self.algorithms is None:
             self.algorithms = []
         decision_tree = DecisionTree(name)
@@ -77,7 +79,7 @@ class AlgorithmsBuilder:
         self.algorithms.append(decision_tree)
         return self
     
-    def add_logistic_regression(self, name, hyperparameters_names):
+    def logistic_regression(self, name, hyperparameters_names):
         if self.algorithms is None:
             self.algorithms = []
         logistic_regression = LogisticRegression(name)
@@ -90,7 +92,7 @@ class AlgorithmsBuilder:
         self.algorithms.append(logistic_regression)
         return self
     
-    def add_k_nearest_neighbours(self, name, hyperparameters_names):
+    def k_nearest_neighbours(self, name, hyperparameters_names):
         if self.algorithms is None:
             self.algorithms = []
         k_nearest_neighbours = KNearestNeighbours(name)
@@ -103,7 +105,7 @@ class AlgorithmsBuilder:
         self.algorithms.append(k_nearest_neighbours)
         return self
     
-    def add_stochastic_gradient_descent(self, name, hyperparameters_names):
+    def stochastic_gradient_descent(self, name, hyperparameters_names):
         if self.algorithms is None:
             self.algorithms = []
         stochastic_gradient_descent = StochasticGradientDescent(name)
@@ -153,7 +155,7 @@ class AlgorithmsBuilder:
         for i in range(len(self.algorithms)):
             if isinstance(self.algorithms[i], SVM):
                 # initialize the algorithm svm with the hyperparameters
-                code += self.algorithms[i].name + " = SVC("
+                code += self.algorithms[i].name + " = svm.SVC("
                 for j in range(len(self.algorithms[i].hyperparameters)):
                     code += self.algorithms[i].hyperparameters[j] + "=" + self.algorithms[i].hyperparameters[j]
                     if j != len(self.algorithms[i].hyperparameters) - 1:

@@ -1,7 +1,7 @@
 import os
 import sys
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\model\\DataSelector.py")
+file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\DataSelector.py")
 sys.path.append(file_dir)
 
 from processors.DataProcessor import DataProcessor
@@ -37,10 +37,10 @@ class DataProcessorBuilder:
         self.data_processor.add_processor(DiscreteProcessor())
         return self
 
-    def split(self, test_size):
+    def split(self, test_size, random_state=42):
         if self.data_processor is None:
             self.data_processor = DataProcessor([])
-        self.data_processor.add_processor(SplitProcessor(test_size))
+        self.data_processor.add_processor(SplitProcessor(test_size, random_state))
         return self
 
     def end_processor(self):
@@ -65,7 +65,7 @@ class DataProcessorBuilder:
             elif isinstance(self.data_processor.processors[i], SplitProcessor):
                 code += "# splitting the data\n"
                 code += "X, y = data.drop(['label'], axis = 1), data['label']\n"
-                code += "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=" + str(self.data_processor.processors[i].test_size) + ", random_state=42)\n"
+                code += "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=" + str(self.data_processor.processors[i].test_size) + ", random_state=" + str(self.data_processor.processors[i].random_state) + ")\n"
             
         return code
 

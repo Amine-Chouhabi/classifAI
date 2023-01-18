@@ -1,7 +1,9 @@
 import os
 import sys
+from HyperparameterValues import HyperparameterValues
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\model\\algorithms\\hyperparameter\\Hyperparameter.py")
+
+file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\algorithms\\hyperparameter\\Hyperparameter.py")
 sys.path.append(file_dir)
 
 from Hyperparameter import Hyperparameter
@@ -11,20 +13,75 @@ from RangeHyperparameter import RangeHyperparameter
 class HyperParametersBuilder:
     def __init__(self, root):
         self.root = root
-        self.hyperparameters = None
+        self.hyperparameters = []
 
-    def add_hyperparameter(self, name, value):
-        if self.hyperparameters is None:
-            self.hyperparameters = []
-        self.hyperparameters.append(SingleHyperparameter(name, value))
-        return self
 
-    def add_range_hyperparameter(self, name, min, max, step):
-        if self.hyperparameters is None:
-            self.hyperparameters = []
-        self.hyperparameters.append(RangeHyperparameter(name, min, max, step))
-        return self
+    def set_hyperparameter(self, name):
+        hyperparameterBuilder = HyperparameterValues(self, name)
+        return hyperparameterBuilder
+    
+    def learning_rate(self):
+        return self.set_hyperparameter("learning_rate")
+    
+    def batch_size(self):
+        return self.set_hyperparameter("batch_size")
+    
+    def max_depth(self):
+        return self.set_hyperparameter("max_depth")
+    
+    def n_estimators(self):
+        return self.set_hyperparameter("n_estimators")
+    
+    def criterion(self):
+        return self.set_hyperparameter("criterion")
+    
+    def C(self):
+        return self.set_hyperparameter("C")
+    
+    def kernel(self):
+        return self.set_hyperparameter("kernel")
+    
+    def gamma(self):
+        return self.set_hyperparameter("gamma")
+    
+    def degree(self):
+        return self.set_hyperparameter("degree")
+    
+    def epsilon(self):
+        return self.set_hyperparameter("epsilon")
+    
+    def n_neighbors(self):
+        return self.set_hyperparameter("n_neighbors")
+    
+    def p(self):
+        return self.set_hyperparameter("p")
 
+    def random_state(self):
+        return self.set_hyperparameter("random_state")
+    
+    def verbose(self):
+        return self.set_hyperparameter("verbose")
+    
+    def max_iter(self):
+        return self.set_hyperparameter("max_iter")
+    
+    def n_jobs(self):
+        return self.set_hyperparameter("n_jobs")
+    
+    def activation(self):
+        return self.set_hyperparameter("activation")
+    
+    def solver(self):
+        return self.set_hyperparameter("solver")
+        
+    
+
+    
+
+
+    
+
+    
     def end_hyperparameters(self):
         return self.root
 

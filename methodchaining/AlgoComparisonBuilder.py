@@ -28,7 +28,7 @@ class AlgoComparisonBuiilder:
         return self.hyper_parameters
     
     def set_algorithms(self):
-        self.algorithms = AlgorithmsBuilder(self)
+        self.algorithms = AlgorithmsBuilder(self,self.hyper_parameters)
         return self.algorithms
     
     def set_vizualisation(self):
@@ -66,34 +66,16 @@ algo_comparison_builder \
             .end_selector() \
         .process_data() \
             .normalize() \
-            .split(0.2, ) \
+            .split(0.2, 33) \
             .end_processor() \
         .set_hyper_parameters() \
-            .add_hyperparameter("learning_rate",0.1) \
-            .add_hyperparameter("max_depth", 3) \
-            .add_hyperparameter("n_estimators", 100) \
-            .add_hyperparameter("epochs", 100) \
-            .add_hyperparameter("batch_size", 32) \
-            .add_range_hyperparameter("learning_rate", 0.1, 0.2, 0.02) \
-            .end_hyperparameters() \
+            .learning_rate().set_value(0.1) \
+            .C().set_range(0.1, 1.0, 0.2) \
+        .end_hyperparameters() \
         .set_algorithms() \
-            .add_svm("svm1",[]) \
-            .add_logistic_regression("logistic1",["C", "penalty"]) \
-            .add_random_forest("random_forest1",["n_estimators", "max_depth"]) \
-            .add_k_nearest_neighbours("knn1",["n_neighbors", "weights"]) \
-            .train() \
-            .predict() \
-            .end_algorithms() \
-        .set_vizualisation() \
-            .add_pie_chart() \
-            .visualize_accuracy().as_pie_chart() \
-            .visualize_precision() \
-            .visualize_recall() \
-            .visualize_f1_score() \
-            .visualize_training_duration()  \
-            .end_vizualisation() \
+        .test() \
+        .end_algorithms() \
         .get_notebook_code()
-        
         
     
     
