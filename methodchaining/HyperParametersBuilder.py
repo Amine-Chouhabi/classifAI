@@ -10,6 +10,9 @@ from Hyperparameter import Hyperparameter
 from SingleHyperparameter import SingleHyperparameter
 from RangeHyperparameter import RangeHyperparameter
 
+import nbformat
+
+
 class HyperParametersBuilder:
     def __init__(self, root):
         self.root = root
@@ -84,6 +87,8 @@ class HyperParametersBuilder:
         return self.root
 
     def get_notebook_code(self):
+        cell = nbformat.v4.new_markdown_cell("## Initializing the hyperparameters")
+        self.root.notebook.cells.append(cell)
         code = ""
         if self.hyperparameters is None:
             return code
@@ -98,6 +103,8 @@ class HyperParametersBuilder:
                     code += self.hyperparameters[i].name + " = " + str(self.hyperparameters[i].value) + "\n"
             elif isinstance(self.hyperparameters[i], RangeHyperparameter):
                 code += self.hyperparameters[i].name + " = np.arange(" + str(self.hyperparameters[i].min) + ", " + str(self.hyperparameters[i].max) + ", " + str(self.hyperparameters[i].step) + ")\n"
+        cell = nbformat.v4.new_code_cell(code)
+        self.root.notebook.cells.append(cell)
         return code
 
     

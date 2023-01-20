@@ -12,6 +12,9 @@ from model.processors.NormalizeProcessor import NormalizeProcessor
 from model.processors.DiscreteProcessor import DiscreteProcessor
 from model.processors.SplitProcessor import SplitProcessor
 
+import nbformat
+
+
 FLATTEN_PROCESSOR = 0
 NORMALIZE_PROCESSOR = 1
 DISCRETE_PROCESSOR = 2
@@ -52,6 +55,8 @@ class DataProcessorBuilder:
         return self.root
 
     def get_notebook_code(self):
+        cell = nbformat.v4.new_markdown_cell("## Pre Processing")
+        self.root.notebook.cells.append(cell)
         code = ""
         if self.data_processor is None:
             return code
@@ -61,16 +66,30 @@ class DataProcessorBuilder:
             if isinstance(self.data_processor.processors[i], FlattenProcessor):
                 code += "# flattening the data\n"
                 code += "data = data.values.flatten()\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             elif isinstance(self.data_processor.processors[i], NormalizeProcessor):
                 code += "# normalizing the data\n"
                 code += "data = (data - data.min()) / (data.max() - data.min())\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             elif isinstance(self.data_processor.processors[i], DiscreteProcessor):
                 code += "# discretizing the data\n"
                 code += "data = pd.cut(data, bins=10, labels=False)\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             elif isinstance(self.data_processor.processors[i], SplitProcessor):
                 code += "# splitting the data\n"
                 code += "X, y = data.drop(['label'], axis = 1), data['label']\n"
                 code += "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=" + str(self.data_processor.processors[i].test_size) + ", random_state=" + str(self.data_processor.processors[i].random_state) + ")\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
+        
+
             
         return code
 

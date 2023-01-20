@@ -5,8 +5,11 @@ from HyperParametersBuilder import HyperParametersBuilder
 from AlgorithmsBuilder import AlgorithmsBuilder
 from VizualisationBuilder import VizualisationBuilder
 
+import nbformat
 
-class AlgoComparisonBuiilder:
+
+
+class AlgoComparisonBuilder:
     def __init__(self, name):
         self.name = name
         self.data_selector = None
@@ -14,6 +17,7 @@ class AlgoComparisonBuiilder:
         self.hyper_parameters = None
         self.algorithms = None
         self.vizualisations = None
+        self.notebook = nbformat.v4.new_notebook()
     
     def select_data(self):
         self.data_selector = DataSelectorBuilder(self)
@@ -35,9 +39,41 @@ class AlgoComparisonBuiilder:
         self.vizualisations = VizualisationBuilder(self, self.algorithms)
         return self.vizualisations
 
+    def add_markdown(self, text):
+        cell = nbformat.v4.new_markdown_cell(text)
+        self.notebook.cells.append(cell)
+        return self
+
+    
+
 
     def get_notebook_code(self):
+        cell = nbformat.v4.new_markdown_cell("ClassifAI - Notebook to compare machine learning classifiers")
+        self.notebook.cells.append(cell)
+
+        code = "import pandas as pd \n"
+        code += "import numpy as np \n"
+        code += "from scipy import stats \n"
+        code += "from sklearn.model_selection import train_test_split\n"
+        code += "import time\n"
+        code += "import matplotlib.pyplot as plt\n"
+        code += "from sklearn.model_selection import train_test_split\n"
+        code += "from sklearn.tree import DecisionTreeClassifier\n"
+        code += "from sklearn.linear_model import LogisticRegression\n"
+        code += "from sklearn.ensemble import RandomForestClassifier\n"
+        code += "from sklearn.neighbors import KNeighborsClassifier\n"
+        code += "from sklearn import svm\n"
+        code += "from sklearn.naive_bayes import BernoulliNB\n"
+        code += "from sklearn.naive_bayes import GaussianNB\n"
+        code += "from sklearn.metrics import accuracy_score\n"
+        code += "from sklearn import metrics\n"
+        cell = nbformat.v4.new_code_cell(code)
+        self.notebook.cells.append(cell)
         code = ""
+
+
+
+
         if self.data_selector is not None:
             code += self.data_selector.get_notebook_code()
         if self.data_processor is not None:
@@ -48,57 +84,13 @@ class AlgoComparisonBuiilder:
             code += self.algorithms.get_notebook_code()
         if self.vizualisations is not None:
             code += self.vizualisations.get_notebook_code()
-        print(code)
 
 
+        file_name = self.name + ".ipynb"
 
-# test 
-algo_comparison_builder = AlgoComparisonBuiilder("test")
-algo_comparison_builder \
-    .select_data() \
-        .add_entry("diabetes.csv") \
-        .add_entry("diabetes.csv") \
-        .add_entry("diabetes.csv") \
-        .add_entry("diabetes.csv") \
-            .remove_null_values() \
-            .remove_outliers() \
-            .remove_duplicates() \
-            .end_selector() \
-        .process_data() \
-            .normalize() \
-            .split(0.2, 33) \
-            .end_processor() \
-        .set_hyper_parameters() \
-            .C().set_range().max_(2).min_(0).step_(0.4) \
-            .kernel().set_value("linear") \
-            .gamma().set_value(0.2) \
-            .criterion().set_value(0.1) \
-            .set_hyperparameter("splitter").set_value("best") \
-        .end_hyperparameters() \
-        .set_algorithms() \
-            .svm("svm1") \
-                .kernel() \
-                .C() \
-                .gamma() \
-                .end()      \
-            .svm("svm2") \
-            .end() \
-            .decision_tree("dt1") \
-                .hyperparameter("splitter") \
-                .hyperparameter("criterion") \
-                .end() \
-            .logistic_regression("lr1") \
-            .end() \
-        .end_algorithms() \
-        .set_vizualisation() \
-            .visualize_accuracy().as_pie_chart() \
-            .visualize_loss().as_bar_chart() \
-            .visualize_precision().as_graph() \
-        .end_vizualisation() \
-        .get_notebook_code()
-        
-    
-    
+        with open("../"+file_name, "w") as f:
+            nbformat.write(self.notebook, f)
+
 
 
 

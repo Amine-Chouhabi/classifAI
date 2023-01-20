@@ -17,6 +17,9 @@ from AlgorithmHyperparameterBuilder import AlgorithmHyperparameterBuilder
 from SingleHyperparameter import SingleHyperparameter
 from RangeHyperparameter import RangeHyperparameter
 
+import nbformat
+
+
 
 
 class AlgorithmsBuilder:
@@ -156,6 +159,8 @@ class AlgorithmsBuilder:
         return self.algorithms
 
     def get_notebook_code(self):
+        cell = nbformat.v4.new_markdown_cell("## Setting the classifiers")
+        self.root.notebook.cells.append(cell)
         code = ""
         if self.algorithms is None:
             return code
@@ -201,6 +206,10 @@ class AlgorithmsBuilder:
                         if j != len(self.algorithms[i].hyperparameters) - 1:
                             code += ", "
                     code += ")\n"
+                
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
 
 
 
@@ -233,6 +242,11 @@ class AlgorithmsBuilder:
                         if j != len(self.algorithms[i].hyperparameters) - 1:
                             code += ", "
                     code += ")\n"
+
+                
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
 
 
                 
@@ -267,6 +281,10 @@ class AlgorithmsBuilder:
                             code += ", "
                     code += ")\n"
 
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
+
 
             
             
@@ -299,6 +317,10 @@ class AlgorithmsBuilder:
                             code += ", "
                     code += ")\n"
 
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
+
             
             elif isinstance(self.algorithms[i], LogisticRegression):
                 if range_hyperparameter is not None:
@@ -328,6 +350,10 @@ class AlgorithmsBuilder:
                         if j != len(self.algorithms[i].hyperparameters) - 1:
                             code += ", "
                     code += ")\n"
+
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
 
 
             
@@ -360,6 +386,10 @@ class AlgorithmsBuilder:
                             code += ", "
                     code += ")\n"
 
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
+
 
             
             elif isinstance(self.algorithms[i], StochasticGradientDescent):
@@ -390,9 +420,17 @@ class AlgorithmsBuilder:
                         if j != len(self.algorithms[i].hyperparameters) - 1:
                             code += ", "
                     code += ")\n"
+
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             
             else:
                 raise Exception("Invalid algorithm")
+        
+        # remove the algorithms that were created for the hyperparameter tuning
+        for i in range(len(algorithms_to_remove)):
+            self.algorithms.remove(algorithms_to_remove[i])
 
             
         # train the algorithms
@@ -403,18 +441,22 @@ class AlgorithmsBuilder:
                     code += "start_" + self.algorithms[i].name + " = time.time()\n"
                     code += self.algorithms[i].name + ".fit(X_train, y_train)\n"
                     code += "end_" + self.algorithms[i].name + " = time.time()\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             if "predict" in self.actions:
                 code += "# predicting the algorithms\n"
                 for i in range(len(self.algorithms)):
                     code += "y_pred_" + self.algorithms[i].name +" = " + self.algorithms[i].name + ".predict(X_test)\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
 
 
 
             
 
-        # remove the algorithms that were created for the hyperparameter tuning
-        for i in range(len(algorithms_to_remove)):
-            self.algorithms.remove(algorithms_to_remove[i])
+        
 
 
 

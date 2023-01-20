@@ -15,6 +15,9 @@ from model.filters.DuplicateFilter import DuplicateFilter
 from model.filters.ColumnFilter import ColumnFilter
 from model.filters.RowFilter import RowFilter
 
+import nbformat
+
+
 NULL_FILTER = 0
 OUTLIERS_FILTER = 1
 DUPLICATES_FILTER = 2
@@ -63,6 +66,9 @@ class DataSelectorBuilder:
         return self.root
 
     def get_notebook_code(self):
+        
+        cell = nbformat.v4.new_markdown_cell("## Data selection")
+        self.root.notebook.cells.append(cell)
         code = ""
         if self.data_selector is None:
             return code
@@ -73,26 +79,43 @@ class DataSelectorBuilder:
             
             code += "data" + str(i) + " = pd.read_csv('" + self.data_selector.data_entries[i].path + "')\n"
             code += "data = pd.concat([data, data" + str(i) + "])\n"
-        
+        cell = nbformat.v4.new_code_cell(code)
+        self.root.notebook.cells.append(cell)
+        code = ""
         # apply all filters
         for i in range(len(self.data_selector.filters)):
             if isinstance(self.data_selector.filters[i], NullFilter):
                 code += "# removing null values\n"
                 code += "data = data.dropna()\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             elif isinstance(self.data_selector.filters[i], OutliersFilter):
                 code += "# removing outliers\n"
                 code += "data = data[(np.abs(stats.zscore(data)) < 3).all(axis=1)]\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             elif isinstance(self.data_selector.filters[i], DuplicateFilter):
                 code += "# removing duplicates\n"
                 code += "data = data.drop_duplicates()\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             elif isinstance(self.data_selector.filters[i], RowFilter):
                 code += "# removing rows\n"
                 code += "data = data.drop([" + ", ".join(self.data_selector.filters[i].rows) + "])\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
             elif isinstance(self.data_selector.filters[i], ColumnFilter):
                 code += "# removing columns\n"
                 code += "data = data.drop(columns=['"
                 code += "', '".join(self.data_selector.filters[i].columns)
                 code += "'])\n"
+                cell = nbformat.v4.new_code_cell(code)
+                self.root.notebook.cells.append(cell)
+                code = ""
         return code
 
     
