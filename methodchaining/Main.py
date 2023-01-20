@@ -36,13 +36,14 @@ def main2():
             .predict() \
             .end_algorithms() \
         .set_vizualisation() \
-            .visualize_accuracy().as_graph() \
-            .visualize_loss().as_pie_chart() \
-            .visualize_precision().as_bar_chart() \
-            .visualize_recall().as_bar_chart() \
-            .visualize_f1_score().as_graph() \
-            .visualize_training_duration().as_graph() \
-            .end_vizualisation() \
+            .visualize_accuracy().as_graph().from_(0) \
+            .visualize_loss().as_pie_chart().from_(100) \
+            .visualize_precision().as_bar_chart().from_(0) \
+            .visualize_recall().as_bar_chart().from_(0) \
+            .visualize_f1_score().as_graph().from_(0) \
+            .visualize_training_duration().as_graph().from_(0) \
+            .rank_algorithms() \
+        .end_vizualisation() \
         .get_notebook_code()
         
 
@@ -87,13 +88,13 @@ def main():
             .end() \
             .train() \
             .predict() \
-        .end_algorithms() \
+            .end_algorithms() \
         .set_vizualisation() \
             .visualize_accuracy().as_bar_chart() \
             .visualize_loss().as_bar_chart() \
             .visualize_precision().as_graph() \
             .visualize_training_duration().as_pie_chart() \
-        .end_vizualisation() \
+            .end_vizualisation() \
         .get_notebook_code()
 
     

@@ -17,14 +17,18 @@ class VisualisationTypeBuilder:
     def as_pie_chart(self):
         self.visualisation = PieChart()
         self.root.vizualisations[self.target] = self.visualisation
-        return self.root
+        return self
 
     def as_bar_chart(self):
         self.visualisation = BarChart()
         self.root.vizualisations[self.target] = self.visualisation
-        return self.root
+        return self
 
     def as_graph(self):
         self.visualisation = Graph()
         self.root.vizualisations[self.target] = self.visualisation
+        return self
+    
+    def from_(self, value):
+        self.root.vizualisations[self.target] = (self.visualisation, value)
         return self.root

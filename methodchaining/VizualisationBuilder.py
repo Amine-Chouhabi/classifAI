@@ -18,37 +18,43 @@ class VizualisationBuilder:
         self.root = root
         self.algorithms = algorithms
         self.vizualisations = {}
-        self.target = []
+        self.target = ""
 
     def visualize_accuracy(self):
-        self.target.append("accuracy")
         builder = VisualisationTypeBuilder(self, "accuracy")
         return builder
     
     def visualize_loss(self):
-        self.target.append("loss")
         builder = VisualisationTypeBuilder(self, "loss")
         return builder
     
     def visualize_precision(self):
-        self.target.append("precision")
         builder = VisualisationTypeBuilder(self, "precision")
         return builder
 
     def visualize_recall(self):
-        self.target.append("recall")
         builder = VisualisationTypeBuilder(self, "recall")
         return builder
 
     def visualize_f1_score(self):
-        self.target.append("f1")
         builder = VisualisationTypeBuilder(self, "f1")
         return builder
     
     def visualize_training_duration(self):
-        self.target.append("training_duration")
         builder = VisualisationTypeBuilder(self, "training_duration")
         return builder
+
+    
+
+    
+    
+
+        
+
+    def rank_algorithms(self):
+        self.target = "rank"
+        print("Ranking algorithms")
+        return self
 
     
     
@@ -64,21 +70,20 @@ class VizualisationBuilder:
         if self.vizualisations is None:
             return code
         code += "# visualizing the results\n"
-        # get the algorithms names in a list
-        code += "algorithms = []\n"
-        for k in range(len(self.algorithms.get_algorithms())):
-            code += "algorithms.append('" + self.algorithms.get_algorithms()[k].name + "')\n"
-        cell = nbformat.v4.new_code_cell(code)
-        self.root.notebook.cells.append(cell)
-        code = ""
+        print(self.vizualisations.items())
 
         # loop through dictionary and add code for each visualisation
         for key, value in self.vizualisations.items():
             if key == "accuracy":
+                n = value[1]
+                # plot only the accuracies higher than n
                 code += "accuracies = []\n"
+                code += "algorithms = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "accuracies.append(metrics.accuracy_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
-                if isinstance(value, PieChart):
+                    code += "if metrics.accuracy_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ") > " + str(n) + ":\n"
+                    code += "\taccuracies.append(metrics.accuracy_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
+                    code += "\talgorithms.append('" + self.algorithms.get_algorithms()[j].name + "')\n"
+                if isinstance(value[0], PieChart):
                     # figure size
                     code += "plt.figure(figsize=(10, 10))\n"                        
                     code += "plt.pie(accuracies, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"                                   
@@ -86,13 +91,13 @@ class VizualisationBuilder:
                     # title
                     code += "plt.title('Accuracy of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, BarChart):
+                elif isinstance(value[0], BarChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.bar(algorithms, accuracies)\n"
                     # title
                     code += "plt.title('Accuracy of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, Graph):
+                elif isinstance(value[0], Graph):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.plot(algorithms, accuracies)\n"
                     # title
@@ -103,10 +108,15 @@ class VizualisationBuilder:
                 self.root.notebook.cells.append(cell)
                 code = ""
             elif key == "loss":
+                n = value[1]
+                # plot only the losses lower than n
                 code += "losses = []\n"
+                code += "algorithms = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "losses.append(metrics.log_loss(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
-                if isinstance(value, PieChart):
+                    code += "if metrics.log_loss(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ") < " + str(n) + ":\n"
+                    code += "\tlosses.append(metrics.log_loss(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
+                    code += "\talgorithms.append('" + self.algorithms.get_algorithms()[j].name + "')\n"
+                if isinstance(value[0], PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(losses, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"
                     code += "plt.axis('equal')\n"
@@ -114,13 +124,13 @@ class VizualisationBuilder:
                     code += "plt.title('Loss of the algorithms')\n"
             
                     code += "plt.show()\n"
-                elif isinstance(value, BarChart):
+                elif isinstance(value[0], BarChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.bar(algorithms, losses)\n"
                     # title
                     code += "plt.title('Loss of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, Graph):
+                elif isinstance(value[0], Graph):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.plot(algorithms, losses)\n"
                     # title
@@ -130,23 +140,28 @@ class VizualisationBuilder:
                 self.root.notebook.cells.append(cell)
                 code = ""
             elif key == "precision":
+                n = value[1]
+                # plot only the precisions higher than n
                 code += "precisions = []\n"
+                code += "algorithms = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "precisions.append(metrics.precision_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
-                if isinstance(value, PieChart):
+                    code += "if metrics.precision_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ") > " + str(n) + ":\n"
+                    code += "\tprecisions.append(metrics.precision_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
+                    code += "\talgorithms.append('" + self.algorithms.get_algorithms()[j].name + "')\n"
+                if isinstance(value[0], PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(precisions, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"
                     code += "plt.axis('equal')\n"
                     # title
                     code += "plt.title('Precision of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, BarChart):
+                elif isinstance(value[0], BarChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.bar(algorithms, precisions)\n"
                     # title
                     code += "plt.title('Precision of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, Graph):
+                elif isinstance(value[0], Graph):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.plot(algorithms, precisions)\n"
                     # title
@@ -156,23 +171,28 @@ class VizualisationBuilder:
                 self.root.notebook.cells.append(cell)
                 code = ""
             elif key == "recall":
+                n = value[1]
+                # plot only the recalls higher than n
                 code += "recalls = []\n"
+                code += "algorithms = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "recalls.append(metrics.recall_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
-                if isinstance(value, PieChart):
+                    code += "if metrics.recall_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ") > " + str(n) + ":\n"
+                    code += "\trecalls.append(metrics.recall_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
+                    code += "\talgorithms.append('" + self.algorithms.get_algorithms()[j].name + "')\n"
+                if isinstance(value[0], PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(recalls, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"
                     code += "plt.axis('equal')\n"
                     # title
                     code += "plt.title('Recall of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, BarChart):
+                elif isinstance(value[0], BarChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.bar(algorithms, recalls)\n"
                     # title
                     code += "plt.title('Recall of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, Graph):
+                elif isinstance(value[0], Graph):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.plot(algorithms, recalls)\n"
                     # title
@@ -182,23 +202,28 @@ class VizualisationBuilder:
                 self.root.notebook.cells.append(cell)
                 code = ""
             elif key == "f1":
+                n = value[1]
+                # plot only the f1s higher than n
                 code += "f1s = []\n"
+                code += "algorithms = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "f1s.append(metrics.f1_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
-                if isinstance(value, PieChart):
+                    code += "if metrics.f1_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ") > " + str(n) + ":\n"
+                    code += "\tf1s.append(metrics.f1_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
+                    code += "\talgorithms.append('" + self.algorithms.get_algorithms()[j].name + "')\n"
+                if isinstance(value[0], PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(f1s, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"
                     code += "plt.axis('equal')\n"
                     # title
                     code += "plt.title('F1 of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, BarChart):
+                elif isinstance(value[0], BarChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.bar(algorithms, f1s)\n"
                     # title
                     code += "plt.title('F1_score of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, Graph):
+                elif isinstance(value[0], Graph):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.plot(algorithms, f1s)\n"
                     # title
@@ -208,23 +233,28 @@ class VizualisationBuilder:
                 self.root.notebook.cells.append(cell)
                 code = ""
             elif key == "training_duration":
+                n = value[1]
+                # plot only the training durations higher than n
                 code += "durations = []\n"
+                code += "algorithms = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "durations.append(end_" + self.algorithms.get_algorithms()[j].name +"-" + "start_"+ self.algorithms.get_algorithms()[j].name+")\n"
-                if isinstance(value, PieChart):
+                    code += "if end_" + self.algorithms.get_algorithms()[j].name +"- start_"+ self.algorithms.get_algorithms()[j].name + " > " + str(n) + ":\n"
+                    code += "\tdurations.append(end_" + self.algorithms.get_algorithms()[j].name +"- start_"+ self.algorithms.get_algorithms()[j].name + ")\n"
+                    code += "\talgorithms.append('" + self.algorithms.get_algorithms()[j].name + "')\n"
+                if isinstance(value[0], PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(durations, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"
                     code += "plt.axis('equal')\n"
                     # title
                     code += "plt.title('Training duration of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, BarChart):
+                elif isinstance(value[0], BarChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.bar(algorithms, durations)\n"
                     # title
                     code += "plt.title('Training duration of the algorithms')\n"
                     code += "plt.show()\n"
-                elif isinstance(value, Graph):
+                elif isinstance(value[0], Graph):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.plot(algorithms, durations)\n"
                     # title
@@ -233,6 +263,15 @@ class VizualisationBuilder:
                 cell = nbformat.v4.new_code_cell(code)
                 self.root.notebook.cells.append(cell)
                 code = ""
+        if self.target == "rank":
+            # rank the algorithms according to the metrics in a markdown table
+            code += "table = [['Algorithm', 'Precision', 'Recall', 'F1', 'Training duration']]\n"
+            for j in range(len(self.algorithms.get_algorithms())):
+                code += "table.append(['" + self.algorithms.get_algorithms()[j].name + "', precisions[" + str(j) + "], recalls[" + str(j) + "], f1s[" + str(j) + "], durations[" + str(j) + "]])\n"
+            code += "print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))\n"
+            cell = nbformat.v4.new_code_cell(code)
+            self.root.notebook.cells.append(cell)
+            code = ""
 
             
         
