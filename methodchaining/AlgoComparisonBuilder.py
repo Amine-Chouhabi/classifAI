@@ -77,9 +77,9 @@ algo_comparison_builder \
         .end_hyperparameters() \
         .set_algorithms() \
             .svm("svm1") \
-                .hyperparameter("kernel") \
-                .hyperparameter("C") \
-                .hyperparameter("gamma") \
+                .kernel() \
+                .C() \
+                .gamma() \
                 .end()      \
             .svm("svm2") \
             .end() \

@@ -18,7 +18,6 @@ class AlgorithmHyperparameterBuilder:
     
     def hyperparameter(self, hyperparameter_name):
         # dictionary of hyperparameters with hteir type (single or range)
-        single_or_range = None
 
         # check if name appears in the list of hyperparameters for the algorithm
         for hyperparameter in self.root.hyperparameters.hyperparameters:

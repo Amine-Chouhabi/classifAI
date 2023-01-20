@@ -59,7 +59,6 @@ class VizualisationBuilder:
         if self.vizualisations is None:
             return code
         code += "# visualizing the results\n"
-        print(self.algorithms.algorithms)
 
         # loop through dictionary and add code for each visualisation
         for key, value in self.vizualisations.items():
