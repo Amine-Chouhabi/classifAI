@@ -8,6 +8,8 @@ from Hyperparameter import Hyperparameter
 from SingleHyperparameter import SingleHyperparameter
 from RangeHyperparameter import RangeHyperparameter
 
+from RangeHyperparameterBuilder import RangeHyperparameterBuilder
+
 
 class HyperparameterValues:
     def __init__(self, root, name):
@@ -15,10 +17,13 @@ class HyperparameterValues:
         self.name = name
         self.hyperparameter = None
     
-    def set_range(self, min, max, step):
-        self.hyperparameter = RangeHyperparameter(self.name, min, max, step) 
-        self.root.hyperparameters.append(self.hyperparameter)
-        return self.root
+    def set_range(self):
+
+        #self.hyperparameter = RangeHyperparameter(self.name, min, max, step) 
+        #self.root.hyperparameters.append(self.hyperparameter)
+        builder = RangeHyperparameterBuilder(self, self.name)
+        print(builder)
+        return builder
         
 
     def set_value(self, value):

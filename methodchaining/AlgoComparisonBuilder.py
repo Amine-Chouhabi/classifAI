@@ -69,7 +69,7 @@ algo_comparison_builder \
             .split(0.2, 33) \
             .end_processor() \
         .set_hyper_parameters() \
-            .C().set_range(0.1,2,0.5) \
+            .C().set_range().max_(2).min_(0).step_(0.4) \
             .kernel().set_value("linear") \
             .gamma().set_value(0.2) \
             .criterion().set_value(0.1) \
