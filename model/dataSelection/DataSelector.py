@@ -1,6 +1,6 @@
 # DataSelector class with DataEntries 
 
-from dataSelection.DataSetEntry import DataSetEntry
+from model.dataSelection.DataSetEntry import DataSetEntry
 class DataSelector:
     """Class for selecting data from a list of DataEntry objects"""
     def __init__(self, data_entries, filters= []):
