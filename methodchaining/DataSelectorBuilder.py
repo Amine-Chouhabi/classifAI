@@ -29,6 +29,7 @@ class DataSelectorBuilder:
         self.root = root
         self.data_selector = None
         self.validator = DataSelectionValidator()
+        self.column_code = ""
 
     def add_entry(self, path):
         if self.data_selector is None:
@@ -61,6 +62,13 @@ class DataSelectorBuilder:
         self.data_selector.add_filter(RowFilter(rows))
         return self    
 
+    def rename_column(self, old_name, new_name):
+        self.validator.entry_is_exist(self.data_selector)
+        self.column_code += "# renaming columns\n"
+        self.column_code += "data = data.rename(columns={'" + old_name + "':'" + new_name + "'})\n"
+        
+        return self
+
     def end_selector(self):
         self.validator.entry_is_exist(self.data_selector)
         return self.root
@@ -81,7 +89,11 @@ class DataSelectorBuilder:
             code += "data = pd.concat([data, data" + str(i) + "])\n"
         cell = nbformat.v4.new_code_cell(code)
         self.root.notebook.cells.append(cell)
+        if self.column_code != "":
+            cell = nbformat.v4.new_code_cell(self.column_code)
+            self.root.notebook.cells.append(cell)
         code = ""
+        
         # apply all filters
         for i in range(len(self.data_selector.filters)):
             if isinstance(self.data_selector.filters[i], NullFilter):
@@ -104,7 +116,7 @@ class DataSelectorBuilder:
                 code = ""
             elif isinstance(self.data_selector.filters[i], RowFilter):
                 code += "# removing rows\n"
-                code += "data = data.drop([" + ", ".join(self.data_selector.filters[i].rows) + "])\n"
+                code += "data = data.drop(" + str(self.data_selector.filters[i].rows) + ")\n"
                 cell = nbformat.v4.new_code_cell(code)
                 self.root.notebook.cells.append(cell)
                 code = ""

@@ -132,7 +132,7 @@ class VizualisationBuilder:
             elif key == "precision":
                 code += "precisions = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "precisions.append(metrics.precision_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ", pos_label=\"1\"))\n"
+                    code += "precisions.append(metrics.precision_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
                 if isinstance(value, PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(precisions, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"
@@ -158,7 +158,7 @@ class VizualisationBuilder:
             elif key == "recall":
                 code += "recalls = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "recalls.append(metrics.recall_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ", pos_label=\"1\"))\n"
+                    code += "recalls.append(metrics.recall_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
                 if isinstance(value, PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(recalls, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"
@@ -184,7 +184,7 @@ class VizualisationBuilder:
             elif key == "f1":
                 code += "f1s = []\n"
                 for j in range(len(self.algorithms.get_algorithms())):
-                    code += "f1s.append(metrics.f1_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + ", pos_label=\"1\"))\n"
+                    code += "f1s.append(metrics.f1_score(ytest, y_pred_" + self.algorithms.get_algorithms()[j].name + "))\n"
                 if isinstance(value, PieChart):
                     code += "plt.figure(figsize=(10, 10))\n"  
                     code += "plt.pie(f1s, labels=algorithms, autopct='%1.1f%%', shadow=True, startangle=90)\n"

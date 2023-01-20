@@ -84,7 +84,7 @@ class DataProcessorBuilder:
             elif isinstance(self.data_processor.processors[i], SplitProcessor):
                 code += "# splitting the data\n"
                 code += "X, y = data.drop(['label'], axis = 1), data['label']\n"
-                code += "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=" + str(self.data_processor.processors[i].test_size) + ", random_state=" + str(self.data_processor.processors[i].random_state) + ")\n"
+                code += "X_train, X_test, y_train, ytest = train_test_split(X, y, test_size=" + str(self.data_processor.processors[i].test_size) + ", random_state=" + str(self.data_processor.processors[i].random_state) + ")\n"
                 cell = nbformat.v4.new_code_cell(code)
                 self.root.notebook.cells.append(cell)
                 code = ""

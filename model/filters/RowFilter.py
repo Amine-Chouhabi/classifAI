@@ -4,8 +4,9 @@ from filters.Filter import Filter
 
 
 class RowFilter(Filter):
-    def __init__(self):
+    def __init__(self, rows):
         super().__init__()
+        self.rows = rows
     
     def __str__(self):
         return "RowFilter"
