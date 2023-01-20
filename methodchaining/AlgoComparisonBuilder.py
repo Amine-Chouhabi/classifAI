@@ -69,20 +69,32 @@ algo_comparison_builder \
             .split(0.2, 33) \
             .end_processor() \
         .set_hyper_parameters() \
-            .learning_rate().set_value(0.1) \
-            .C().set_value(0.1) \
+            .C().set_range(0.1,2,0.5) \
             .kernel().set_value("linear") \
             .gamma().set_value(0.2) \
+            .criterion().set_value(0.1) \
+            .set_hyperparameter("splitter").set_value("best") \
         .end_hyperparameters() \
         .set_algorithms() \
             .svm("svm1") \
-                .hyperparameter("C") \
                 .hyperparameter("kernel") \
+                .hyperparameter("C") \
                 .hyperparameter("gamma") \
                 .end()      \
             .svm("svm2") \
             .end() \
+            .decision_tree("dt1") \
+                .hyperparameter("splitter") \
+                .hyperparameter("criterion") \
+                .end() \
+            .logistic_regression("lr1") \
+            .end() \
         .end_algorithms() \
+        .set_vizualisation() \
+            .visualize_accuracy().as_pie_chart() \
+            .visualize_loss().as_bar_chart() \
+            .visualize_precision().as_graph() \
+        .end_vizualisation() \
         .get_notebook_code()
         
     

@@ -68,12 +68,10 @@ class HyperParametersBuilder:
     def n_jobs(self):
         return self.set_hyperparameter("n_jobs")
     
-    def activation(self):
-        return self.set_hyperparameter("activation")
     
     def solver(self):
         return self.set_hyperparameter("solver")
-        
+
     
 
     
@@ -93,7 +91,11 @@ class HyperParametersBuilder:
         # set all hyperparameters
         for i in range(len(self.hyperparameters)):
             if isinstance(self.hyperparameters[i], SingleHyperparameter):
-                code += self.hyperparameters[i].name + " = " + str(self.hyperparameters[i].value) + "\n"
+                # check if the hyperparameter is a numeric value or a string
+                if isinstance(self.hyperparameters[i].value, str):
+                    code += self.hyperparameters[i].name + " = \"" + str(self.hyperparameters[i].value) + "\"\n"
+                else:
+                    code += self.hyperparameters[i].name + " = " + str(self.hyperparameters[i].value) + "\n"
             elif isinstance(self.hyperparameters[i], RangeHyperparameter):
                 code += self.hyperparameters[i].name + " = np.arange(" + str(self.hyperparameters[i].min) + ", " + str(self.hyperparameters[i].max) + ", " + str(self.hyperparameters[i].step) + ")\n"
         return code

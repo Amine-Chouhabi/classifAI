@@ -19,6 +19,9 @@ class LogisticRegression(Algorithm):
     def set_hyperparameters(self, hyperparameters):
         self.hyperparameters = hyperparameters
 
+    def clone(self):
+        return LogisticRegression(self.name)
+
 
     def get_hyperparameters_names(self):
         return [

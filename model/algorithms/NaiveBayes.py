@@ -17,6 +17,9 @@ class NaiveBayes(Algorithm):
 
     def set_hyperparameters(self, hyperparameters):
         self.hyperparameters = hyperparameters
+
+    def clone(self):
+        return NaiveBayes(self.name)
     
 
 

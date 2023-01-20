@@ -18,6 +18,9 @@ class KNearestNeighbours(Algorithm):
     def set_hyperparameters(self, hyperparameters):
         self.hyperparameters = hyperparameters
 
+    def clone(self):
+        return KNearestNeighbours(self.name)
+
 
     def get_hyperparameters_names(self):
         return [
