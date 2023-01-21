@@ -1,47 +1,22 @@
+<program> ::=<ign> "algo_comparison_builder"<select_data> <process_data><set_hyper_parameters> <set_algorithms> <set_vizualisation><ign>".get_notebook_code()"
 
-<program> ::= "algo_comparison_builder"<select_data> <process_data><set_hyper_parameters> <set_algorithms> <set_vizualisation>".get_notebook_code()"
+<select_data>          ::= <ign>".select_data()" {<method_call>}       <ign> ".end_selector()" ;
+<process_data>         ::= <ign>".process_data()" {<method_call>}       <ign>".end_processor()" ;
+<set_hyper_parameters> :=<ign>".set_hyper_parameters()" {<method_call>} <ign> ".end_hyperparameters()"
+<set_algorithms>       :=<ign> ".set_algorithms()"      {<method_call>} <ign>".end_algorithms()"
+<set_vizualisation>    :=<ign> ".set_vizualisation()"    {<method_call>} <ign> ".end_vizualisation()"
 
-<select_data> ::= <NEWLINE>*".select_data()" {<NEWLINE>*<select_data_rule><NEWLINE>*} ".end_selector()";
-
-<select_data_rule> ::= <add_entry> | <remove_columns> | <remove_rows> | <rename_column> | <remove_null_values> | <remove_outliers> | <remove_duplicates>
-
-<add_entry> ::= ".add_entry" "(" <string> ")"
-
-<remove_columns> ::= ".remove_columns("<list>")"
-
-<remove_rows> ::= ".remove_rows" "(" <list> ")"
-
-<rename_column> ::= ".rename_column" "(" <string> "," <string> ")"
-
-<remove_null_values> ::= ".remove_null_values" "(" ")"
-
-<remove_outliers> ::= ".remove_outliers" "(" ")"
-
-<remove_duplicates> ::= ".remove_duplicates" "(" ")"
-
-<process_data> ::= <NEWLINE>*".process_data()" {<NEWLINE>*<process_data_rule><NEWLINE>*} ".end_processor()"
-
-<process_data_rule> ::= <normalize> | <split>
-
-<normalize> ::= ".normalize()"
-
-<split> ::= ".split(" <float> "," <int> ")"
-
-<set_hyper_parameters> :=<NEWLINE>*
-<set_algorithms>:=<NEWLINE>*
-<set_vizualisation>:=<NEWLINE>*
-
-
-
-
-
-
-
+<method_call> ::=<ign><method_name> "(" <argument_list>? ")"
+<method_name> ::= "."<identifier>
+<argument_list> ::= <argument> | <argument> ","" "* <argument_list> | "[" <argument_list> "]"
+<argument> ::= <value>
+<value> ::= <int> | <float> | <string>
+<identifier> ::= <letter> {<letter> | <digit>}
 
 
 
 <list> ::= "[" {<string> ","} <string> "]"
-<string> :={ <letter> | <digit> | <symbol> |"_" } ;
+<string> := '"'{ <letter> | <digit> |"."  }'"' ;
 letter := "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "H" | "I" | "J" | "K" | "L" | "M" | "N"
        | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
@@ -49,15 +24,14 @@ letter := "A" | "B" | "C" | "D" | "E" | "F" | "G"
        | "c" | "d" | "e" | "f" | "g" | "h" | "i"
        | "j" | "k" | "l" | "m" | "n" | "o" | "p"
        | "q" | "r" | "s" | "t" | "u" | "v" | "w"
-       | "x" | "y" | "z" ;
+       | "x" | "y" | "z" |"_" ;
 <digit> := "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
-<symbol> := "[" | "]" | "{" | "}" | "<" | ">"
-       | "'" | '"' | "=" | "|" | "." | ";" ;
+
 
 <float> := <digit>+ "."<digit>+
 <int> := <digit>+
 
 
-<NEWLINE> ::= "\n"|"\r"|"\t"|" "
+<ign> ::= ("\n"|"\r"|"\t"|" ")*
 
 
