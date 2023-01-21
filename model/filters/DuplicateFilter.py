@@ -1,6 +1,6 @@
 #Filter class to remove duplicate values from dataframe with pandas
 
-from filters.Filter import Filter
+from model.filters.Filter import Filter
 
 class DuplicateFilter(Filter):
     def __init__(self):

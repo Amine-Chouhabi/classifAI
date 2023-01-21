@@ -1,12 +1,7 @@
-import os
-import sys
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\visualisation\\Visualisation.py")
-sys.path.append(file_dir)
-
-from PieChart import PieChart
-from BarChart import BarChart
-from Graph import Graph
+from model.visualisation.PieChart import PieChart
+from model.visualisation.BarChart import BarChart
+from model.visualisation.Graph import Graph
 
 class VisualisationTypeBuilder:
     def __init__(self, root, target):

@@ -1,4 +1,4 @@
-from algorithms.Algorithm import Algorithm
+from model.algorithms.Algorithm import Algorithm
 
 class KNearestNeighbours(Algorithm):
     def __init__(self, name):

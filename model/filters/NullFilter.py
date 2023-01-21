@@ -1,6 +1,6 @@
 # Filter class to remove null values from dataframe with pandas
 
-from filters.Filter import Filter
+from model.filters.Filter import Filter
 
 class NullFilter(Filter):
     def __init__(self):

@@ -4,18 +4,18 @@ import sys
 file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\algorithms")
 sys.path.append(file_dir)
 
-from algorithms.Algorithm import Algorithm
-from algorithms.SVM import SVM
-from algorithms.NaiveBayes import NaiveBayes
-from algorithms.RandomForest import RandomForest
-from algorithms.DecisionTree import DecisionTree
-from algorithms.LogisticRegression import LogisticRegression
-from algorithms.KNearestNeighbours import KNearestNeighbours
-from algorithms.StochasticGradientDescent import StochasticGradientDescent
+from model.algorithms.Algorithm import Algorithm
+from model.algorithms.SVM import SVM
+from model.algorithms.NaiveBayes import NaiveBayes
+from model.algorithms.RandomForest import RandomForest
+from model.algorithms.DecisionTree import DecisionTree
+from model.algorithms.LogisticRegression import LogisticRegression
+from model.algorithms.KNearestNeighbours import KNearestNeighbours
+from model.algorithms.StochasticGradientDescent import StochasticGradientDescent
 from AlgorithmHyperparameterBuilder import AlgorithmHyperparameterBuilder
 
-from SingleHyperparameter import SingleHyperparameter
-from RangeHyperparameter import RangeHyperparameter
+from model.algorithms.hyperparameter.SingleHyperparameter import SingleHyperparameter
+from model.algorithms.hyperparameter.RangeHyperparameter import RangeHyperparameter
 
 import nbformat
 

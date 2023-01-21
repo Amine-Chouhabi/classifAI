@@ -1,4 +1,4 @@
-from algorithms.Algorithm import Algorithm
+from model.algorithms.Algorithm import Algorithm
 
 class LogisticRegression(Algorithm):
     def __init__(self, name):

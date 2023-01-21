@@ -1,6 +1,6 @@
 # Filter class to remove unnecessary columns from dataframe
 
-from filters.Filter import Filter
+from model.filters.Filter import Filter
 
 
 class ColumnFilter(Filter):

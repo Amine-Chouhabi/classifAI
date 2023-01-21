@@ -36,7 +36,7 @@ def main2():
             .predict() \
             .end_algorithms() \
         .set_vizualisation() \
-            .visualize_accuracy().as_graph() \
+            .visualize_accuracy().as_graph().from_(0.7) \
             .visualize_loss().as_pie_chart().from_(50) \
             .visualize_precision().as_bar_chart() \
             .visualize_recall().as_bar_chart() \
