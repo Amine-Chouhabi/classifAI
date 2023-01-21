@@ -1,12 +1,7 @@
-import os
-import sys
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\visualisation\\Visualisation.py")
-sys.path.append(file_dir)
-
-from PieChart import PieChart
-from BarChart import BarChart
-from Graph import Graph
+from model.visualisation.PieChart import PieChart
+from model.visualisation.BarChart import BarChart
+from model.visualisation.Graph import Graph
 
 class VisualisationTypeBuilder:
     def __init__(self, root, target):
@@ -32,3 +27,32 @@ class VisualisationTypeBuilder:
     def from_(self, value):
         self.root.vizualisations[self.target] = (self.visualisation, value)
         return self.root
+    
+
+    def visualize_loss(self):
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root.visualize_loss()
+    
+    def visualize_accuracy(self):
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root.visualize_accuracy()
+    
+    def visualize_precision(self):
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root.visualize_precision()
+    
+    def visualize_recall(self):
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root.visualize_recall()
+    
+    def visualize_f1_score(self):
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root.visualize_f1_score()
+    
+    def visualize_training_duration(self):
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root.visualize_training_duration()
+    
+    
+
+    

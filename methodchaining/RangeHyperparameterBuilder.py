@@ -1,11 +1,7 @@
-import os
-import sys
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\algorithms\\hyperparameter\\Hyperparameter.py")
-sys.path.append(file_dir)
 
-from Hyperparameter import Hyperparameter
-from RangeHyperparameter import RangeHyperparameter
+from model.algorithms.hyperparameter.Hyperparameter import Hyperparameter
+from model.algorithms.hyperparameter.RangeHyperparameter import RangeHyperparameter
 
 class RangeHyperparameterBuilder:
     def __init__(self, root, name):

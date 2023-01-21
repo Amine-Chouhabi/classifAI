@@ -1,4 +1,4 @@
-from processors.Processor import Processor
+from model.processors.Processor import Processor
 
 class NormalizeProcessor(Processor):
     def __init__(self):

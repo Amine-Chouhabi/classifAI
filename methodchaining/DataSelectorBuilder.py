@@ -1,10 +1,7 @@
-import os
-import sys
 
 from methodchaining.Validators.DataSelectionValidator import DataSelectionValidator
 
-file_dir = os.path.dirname("C:\\Users\\user\\Desktop\\DSL-LAB2\\ClassifAI\\model\\DataSelector.py")
-sys.path.append(file_dir)
+
 
 from model.dataSelection.DataSelector import DataSelector
 from model.dataSelection.DataSetEntry import DataSetEntry

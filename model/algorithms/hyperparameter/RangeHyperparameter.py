@@ -1,4 +1,4 @@
-from Hyperparameter import Hyperparameter
+from model.algorithms.hyperparameter.Hyperparameter import Hyperparameter
 
 class RangeHyperparameter(Hyperparameter):
     def __init__(self, name, min, max, step):

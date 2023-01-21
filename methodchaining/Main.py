@@ -36,12 +36,12 @@ def main2():
             .predict() \
             .end_algorithms() \
         .set_vizualisation() \
-            .visualize_accuracy().as_graph().from_(0) \
-            .visualize_loss().as_pie_chart().from_(100) \
-            .visualize_precision().as_bar_chart().from_(0) \
-            .visualize_recall().as_bar_chart().from_(0) \
-            .visualize_f1_score().as_graph().from_(0) \
-            .visualize_training_duration().as_graph().from_(0) \
+            .visualize_accuracy().as_graph().from_(0.7) \
+            .visualize_loss().as_pie_chart().from_(50) \
+            .visualize_precision().as_bar_chart() \
+            .visualize_recall().as_bar_chart() \
+            .visualize_f1_score().as_graph().from_(0.9) \
+            .visualize_training_duration().as_graph().from_(0.3) \
             .rank_algorithms() \
         .end_vizualisation() \
         .get_notebook_code()

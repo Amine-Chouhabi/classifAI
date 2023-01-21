@@ -1,6 +1,6 @@
 # Filter class to remove extreme values from dataframe with pandas
 
-from filters.Filter import Filter
+from model.filters.Filter import Filter
 
 
 class OutliersFilter(Filter):

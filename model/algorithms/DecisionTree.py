@@ -1,6 +1,6 @@
 # Decision Tree Algorithm class inherits from Algorithm class
 
-from algorithms.Algorithm import Algorithm
+from model.algorithms.Algorithm import Algorithm
 
 class DecisionTree(Algorithm):
     def __init__(self, name):

@@ -1,5 +1,5 @@
 
-from visualisation.Visualisation import Visualisation
+from model.visualisation.Visualisation import Visualisation
 
 class PieChart(Visualisation):
     def __init__(self):
