@@ -1,7 +1,7 @@
 
-<program> ::= "algo_comparison_builder"<NEWLINE>*<select_data> <NEWLINE>*<process_data><NEWLINE>*".get_notebook_code()"
+<program> ::= "algo_comparison_builder"<select_data> <process_data><set_hyper_parameters> <set_algorithms> <set_vizualisation>".get_notebook_code()"
 
-<select_data> ::= ".select_data()" {<NEWLINE>*<select_data_rule><NEWLINE>*} ".end_selector()";
+<select_data> ::= <NEWLINE>*".select_data()" {<NEWLINE>*<select_data_rule><NEWLINE>*} ".end_selector()";
 
 <select_data_rule> ::= <add_entry> | <remove_columns> | <remove_rows> | <rename_column> | <remove_null_values> | <remove_outliers> | <remove_duplicates>
 
@@ -19,13 +19,17 @@
 
 <remove_duplicates> ::= ".remove_duplicates" "(" ")"
 
-<process_data> ::= ".process_data()" {<NEWLINE>*<process_data_rule><NEWLINE>*} ".end_processor()"
+<process_data> ::= <NEWLINE>*".process_data()" {<NEWLINE>*<process_data_rule><NEWLINE>*} ".end_processor()"
 
 <process_data_rule> ::= <normalize> | <split>
 
 <normalize> ::= ".normalize()"
 
 <split> ::= ".split(" <float> "," <int> ")"
+
+<set_hyper_parameters> :=<NEWLINE>*
+<set_algorithms>:=<NEWLINE>*
+<set_vizualisation>:=<NEWLINE>*
 
 
 
