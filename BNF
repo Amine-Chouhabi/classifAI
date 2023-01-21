@@ -1,0 +1,59 @@
+
+<program> ::= "algo_comparison_builder"<NEWLINE>*<select_data> <NEWLINE>*<process_data><NEWLINE>*".get_notebook_code()"
+
+<select_data> ::= ".select_data()" {<NEWLINE>*<select_data_rule><NEWLINE>*} ".end_selector()";
+
+<select_data_rule> ::= <add_entry> | <remove_columns> | <remove_rows> | <rename_column> | <remove_null_values> | <remove_outliers> | <remove_duplicates>
+
+<add_entry> ::= ".add_entry" "(" <string> ")"
+
+<remove_columns> ::= ".remove_columns("<list>")"
+
+<remove_rows> ::= ".remove_rows" "(" <list> ")"
+
+<rename_column> ::= ".rename_column" "(" <string> "," <string> ")"
+
+<remove_null_values> ::= ".remove_null_values" "(" ")"
+
+<remove_outliers> ::= ".remove_outliers" "(" ")"
+
+<remove_duplicates> ::= ".remove_duplicates" "(" ")"
+
+<process_data> ::= ".process_data()" {<NEWLINE>*<process_data_rule><NEWLINE>*} ".end_processor()"
+
+<process_data_rule> ::= <normalize> | <split>
+
+<normalize> ::= ".normalize()"
+
+<split> ::= ".split(" <float> "," <int> ")"
+
+
+
+
+
+
+
+
+
+
+<list> ::= "[" {<string> ","} <string> "]"
+<string> :={ <letter> | <digit> | <symbol> |"_" } ;
+letter := "A" | "B" | "C" | "D" | "E" | "F" | "G"
+       | "H" | "I" | "J" | "K" | "L" | "M" | "N"
+       | "O" | "P" | "Q" | "R" | "S" | "T" | "U"
+       | "V" | "W" | "X" | "Y" | "Z" | "a" | "b"
+       | "c" | "d" | "e" | "f" | "g" | "h" | "i"
+       | "j" | "k" | "l" | "m" | "n" | "o" | "p"
+       | "q" | "r" | "s" | "t" | "u" | "v" | "w"
+       | "x" | "y" | "z" ;
+<digit> := "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" ;
+<symbol> := "[" | "]" | "{" | "}" | "<" | ">"
+       | "'" | '"' | "=" | "|" | "." | ";" ;
+
+<float> := <digit>+ "."<digit>+
+<int> := <digit>+
+
+
+<NEWLINE> ::= "\n"|"\r"|"\t"|" "
+
+
