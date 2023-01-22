@@ -67,6 +67,7 @@ class AlgoComparisonBuilder:
         code += "from sklearn.naive_bayes import GaussianNB\n"
         code += "from sklearn.metrics import accuracy_score\n"
         code += "from sklearn import metrics\n"
+        code += "from tabulateimport tabulate\n"
         cell = nbformat.v4.new_code_cell(code)
         self.notebook.cells.append(cell)
         code = ""
