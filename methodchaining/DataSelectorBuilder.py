@@ -31,6 +31,9 @@ class DataSelectorBuilder:
     def add_entry(self, path):
         if self.data_selector is None:
             self.data_selector = DataSelector([])
+        # check if the file is not csv throw exception
+        if (path.endswith(".csv") == False):
+            raise ValueError("The file should be csv")
         self.data_selector.add_entry(DataSetEntry(path))
         return self
     
