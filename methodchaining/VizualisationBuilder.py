@@ -47,9 +47,8 @@ class VizualisationBuilder:
 
         
 
-    def rank_algorithms(self):
+    def see_recap(self):
         self.target = "rank"
-        print("Ranking algorithms")
         return self
 
     
@@ -260,10 +259,27 @@ class VizualisationBuilder:
                 self.root.notebook.cells.append(cell)
                 code = ""
         if self.target == "rank":
-            # rank the algorithms according to the metrics in a markdown table
-            code += "table = [['Algorithm', 'Precision', 'Recall', 'F1', 'Training duration']]\n"
+
+            
+            code += "table = [[]]\n"
+            for key in self.vizualisations:
+                code += "table[0].append(['" + key + "'])\n"
             for j in range(len(self.algorithms.get_algorithms())):
-                code += "table.append(['" + self.algorithms.get_algorithms()[j].name + "', precisions[" + str(j) + "], recalls[" + str(j) + "], f1s[" + str(j) + "], durations[" + str(j) + "]])\n"
+                code += "table.append(['" + self.algorithms.get_algorithms()[j].name + "'])\n"
+                for key in self.vizualisations:
+                    if key == "precision":
+                        code += "table[" + str(j+1) + "].append(precisions[" + str(j) + "])\n"
+                    elif key == "accuracy":
+                        code += "table[" + str(j+1) + "].append(accuracies[" + str(j) + "])\n"
+                    elif key == "recall":
+                        code += "table[" + str(j+1) + "].append(recalls[" + str(j) + "])\n"
+                    elif key == "f1":
+                        code += "table[" + str(j+1) + "].append(f1s[" + str(j) + "])\n"
+                    elif key == "training_duration":
+                        code += "table[" + str(j+1) + "].append(durations[" + str(j) + "])\n"
+            
+
+            
             code += "print(tabulate(table, headers='firstrow', tablefmt='fancy_grid'))\n"
             cell = nbformat.v4.new_code_cell(code)
             self.root.notebook.cells.append(cell)

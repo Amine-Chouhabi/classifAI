@@ -42,7 +42,7 @@ def main2():
             .visualize_recall().as_bar_chart() \
             .visualize_f1_score().as_graph().from_(0.9) \
             .visualize_training_duration().as_graph().from_(0.3) \
-            .rank_algorithms() \
+            .see_recap() \
         .end_vizualisation() \
         .get_notebook_code()
         
