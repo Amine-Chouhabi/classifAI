@@ -1,7 +1,9 @@
 
-from methodchaining.Validators.DataSelectionValidator import DataSelectionValidator
+from Validators.DataSelectionValidator import DataSelectionValidator
 
-
+import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from model.dataSelection.DataSelector import DataSelector
 from model.dataSelection.DataSetEntry import DataSetEntry
