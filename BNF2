@@ -1,0 +1,90 @@
+<AlgoComparison> ::= <AlgoComparisonBuilder> "\\" <new_line> <content>
+<AlgoComparisonBuilder> ::=  "AlgoComparisonBuilder(\"" <identifier> "\")" <space>
+
+<content> ::= <select_data> <process_data> <set_hyper_parameters> <set_algorithms> <set_vizualisation>  <new_line> <indent> ".get_notebook_code()"
+
+<select_data> ::= <indent> ".select_data()" <space> "\\" <new_line> <select_content>
+<select_content> ::= <dataset_entry>+ <null_values_filter>? <outliers_filter>? <duplicates_filter>? <columns_filter>? <rows_filter>? <columns_rename>? <end_selection>
+<dataset_entry> ::= <double_indent> ".add_entry(\"" <csv_file> "\")" <space> "\\" <new_line>
+<null_values_filter> ::= <double_indent> ".remove_null_values()" <space> "\\" <new_line>
+<outliers_filter> ::= <double_indent> ".remove_outliers()" <space> "\\" <new_line>
+<duplicates_filter> ::= <double_indent> ".remove_duplicates()" <space> "\\" <new_line>
+<columns_filter> ::= <double_indent> ".remove_columns(" <string_list> ")" <space> "\\" <new_line>
+<rows_filter> ::= <double_indent> ".remove_rows(" <int_list> ")" <space> "\\" <new_line>
+<columns_rename> ::= <double_indent> ".rename_column(\"" <identifier> "\" , \"" <identifier> "\")" <space> "\\" <new_line>
+<end_selection> ::= <double_indent> ".end_selector()" <space> "\\" <new_line>
+
+
+<process_data> ::= <indent> ".process_data()" <space> "\\" <new_line> <process_content>
+<process_content> ::= <flatten_data>? <normalize_data>? <discretize_data>? <split_data> <end_processing>
+<flatten_data> ::= <double_indent> ".flatten()" <space> "\\" <new_line>
+<normalize_data> ::= <double_indent> ".normalize()" <space> "\\" <new_line>
+<discretize_data> ::= <double_indent> ".discretize()" <space> "\\" <new_line>
+<split_data> ::= <double_indent> ".split(" <pourcentage> <random_state_argument>?  ")" <space> "\\" <new_line>
+<random_state_argument> ::= ", "  <digits>
+<end_processing> ::= <double_indent> ".end_processor()" <space> "\\" <new_line>
+
+
+<set_hyper_parameters> ::= <indent> ".set_hyper_parameters()" <space> "\\" <new_line> <hyperparameters_content>
+<hyperparameters_content> ::= <set_hyperparameter>+
+<set_hyperparameter> ::= <double_indent> "." <hyper_parameter_name> "(\"" <identifier> "\")" <set_type> <new_line>
+<set_type> ::= <range> | <value> 
+<range> ::= ".set_range().max_(" <digit> ").min_(" <digit> ").step_(" <digit> ")" 
+<value> ::= ".set_value(" <digit> ")"
+
+<hyper_parameter_name> ::= "set_hyperparameter" | "learning_rate" | "batch_size" | "max_depth" | "n_estimators" | "criterion" | "C" | "kernel" | "gamma" | "degree" | "epsilon" | "n_neighbors" | "p" | "random_state" | "n_jobs" | "verbose" | "solver" 
+<hyper_parameter_name_for_algorithm> ::= "hyperparameter" | "learning_rate" | "batch_size" | "max_depth" | "n_estimators" | "criterion" | "C" | "kernel" | "gamma" | "degree" | "epsilon" | "n_neighbors" | "p" | "random_state" | "n_jobs" | "verbose" | "solver" 
+
+
+<set_algorithms> ::= <indent> ".set_algorithms()" <space> "\\" <new_line> <algorithm_content>
+<algorithm_content> ::= <svm>* <naive_bayes>* <random_forest>* <decision_tree>* <logistic_regression>* <k_nearest_neighbours>* <stochastic_gradient_descent>* <train> <predict> <end_algorithm>
+<svm> ::= <double_indent> ".svm(\"" <identifier> "\")" <space> "\\" <new_line> <hyperparameters>+ <triple_indent> ".end()" <new_line>
+<naive_bayes> ::= <double_indent> ".naive_bayes(\"" <identifier> "\")" <space> "\\" <new_line> <hyperparameters>+ <triple_indent> ".end()" <new_line>
+<random_forest> ::= <double_indent> ".random_forest(\"" <identifier> "\")" <space> "\\" <new_line> <hyperparameters>+ <triple_indent> ".end()" <new_line>
+<decision_tree> ::= <double_indent> ".decision_tree(\"" <identifier> "\")" <space> "\\" <new_line> <hyperparameters>+ <triple_indent> ".end()" <new_line>
+<logistic_regression> ::= <double_indent> ".logistic_regression(\"" <identifier> "\")" <space> "\\" <new_line> <hyperparameters>+ <triple_indent> ".end()" <new_line>
+<k_nearest_neighbours> ::= <double_indent> ".k_nearest_neighbours(\"" <identifier> "\")" <space> "\\" <new_line> <hyperparameters>+ <triple_indent> ".end()" <new_line>
+<stochastic_gradient_descent> ::= <double_indent> ".stochastic_gradient_descent(\"" <identifier> "\")" <space> "\\" <new_line> <hyperparameters>+ <triple_indent> ".end()" <new_line>
+<hyperparameters> ::= <triple_indent> "." <hyper_parameter_name_for_algorithm> "(\"" <identifier> "\")" <space> "\\" <new_line> 
+<train> ::= <double_indent> ".train()" <space> "\\" <new_line>
+<predict> ::= <double_indent> ".predict()" <space> "\\" <new_line>
+<end_algorithm> ::= <double_indent> ".end_algorithms()" <space> "\\" <new_line>
+
+
+<set_vizualisation> ::= <indent> ".set_vizualisation()" <space> "\\" <new_line> <visualisation_content>
+<visualisation_content> ::= <set_metric>+ <recap> <end_visualisation>
+<set_metric> ::= <double_indent> "." <metric_name> "." <set_graph_name> <from_digit>? <space> "\\" <new_line>
+<metric_name> ::= "visualize_accuracy()" | "visualize_loss()" | "visualize_precision()" | "visualize_recall()" | "visualize_f1_score()" | "visualize_training_duration()" 
+<set_graph_name> ::= "as_graph()" | "as_pie_chart()" | "as_bar_chart()"
+<recap> ::= <double_indent> ".see_recap()" <space> "\\" <new_line>
+<end_visualisation> ::= <double_indent> ".end_vizualisation()" <space> "\\" <new_line>
+<from_digit> ::= ".from_(" <from_content> ")"
+<from_content> ::= <pourcentage> | <digit>
+
+
+
+
+<identifier> ::= <letter>  ( <letter> | <digit> )+
+<letter> ::= <lowercase> | <uppercase>
+<lowercase> ::= [a-z]
+<uppercase> ::= [A-Z] 
+<letters> ::= <lowercase> (<lowercase>)+
+<space> ::= " "
+<new_line> ::= "\n"
+<indent> ::= "\t"
+<double_indent> ::= "\t\t"
+<triple_indent> ::= "\t\t\t"
+<quadruple_indent> ::= "\t\t\t\t"
+<digit> ::= [0-9]
+<digits> ::= <digit>+
+<pourcentage> ::= "0." <digits> 
+<number> ::= ("0." <digit>+) | "1"
+<path> ::= (<identifier> | "/" | "\\" | "?" | "#" | ":" | "&" | "=")+
+<csv_file> ::= <identifier> ".csv"
+
+<string_list> ::= "[\"" <identifier> <string_list_arguments>+  "]"
+<string_list_arguments> ::= "\", \"" <identifier> "\"" 
+
+
+<int_list> ::= "[" <digits> <int_arguments>+  "]"
+<int_arguments> ::= ", " <digits>

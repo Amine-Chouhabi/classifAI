@@ -70,6 +70,7 @@ class VizualisationBuilder:
         # loop through dictionary and add code for each visualisation
         for key, value in self.vizualisations.items():
             if key == "accuracy":
+
                 n = value[1]
                 # plot only the accuracies higher than n
                 code += "accuracies = []\n"

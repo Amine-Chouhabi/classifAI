@@ -11,18 +11,18 @@ class VisualisationTypeBuilder:
 
     def as_pie_chart(self):
         self.visualisation = PieChart()
-        self.root.vizualisations[self.target] = self.visualisation
-        return self
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root
 
     def as_bar_chart(self):
         self.visualisation = BarChart()
-        self.root.vizualisations[self.target] = self.visualisation
-        return self
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root
 
     def as_graph(self):
         self.visualisation = Graph()
-        self.root.vizualisations[self.target] = self.visualisation
-        return self
+        self.root.vizualisations[self.target] = (self.visualisation, 0)
+        return self.root
     
     def from_(self, value):
         self.root.vizualisations[self.target] = (self.visualisation, value)
